@@ -18,10 +18,10 @@ c_sim.release = 'wisil_11n_1.0';     % simulator release
 c_sim.EbN0s = -30:1:30;  
 
 % simulation length
-c_sim.max_pack_errors = 20;  %maximum number of packet errors
 c_sim.min_npackets = 500;    %minimum number of packets
 c_sim.max_npackets = 2000;   %maximum number of packets
 c_sim.min_pack_errors = 5;   %minimum number of packet errors
+c_sim.max_pack_errors = 20;  %maximum number of packet errors
 c_sim.min_bit_errors = 5;   %minimum number of bit errors
 % for a given Eb/N0 simulation stops if either <c_sim.max_npackets> are 
 % transmitted or <c_sim.max_pack_errors> packet errors occur, however not
@@ -37,11 +37,11 @@ c_sim.rnd_state = 1;		% initial state of random number generator
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Transmitter Parameters
 
-% Standards Version ('802.11a' or '802.11n')
+% Standards Version ('802.11a', '802.11n' or '802.11ac')
 c_sim.version = '802.11n';
 
 % data length of each PSDU in bytes
-c_sim.data_len = 500;       
+c_sim.data_len = 1000;       
 
 % cyclic prefix length ('long' (Ts/4) or 'short' (Ts/8))
 c_sim.cyclic_prefix = 'long'; 
@@ -140,13 +140,13 @@ end
 % Channel Parameters
 
 % AWGN channel enable/disable
-c_sim.chan_awgn = true;      
+c_sim.chan_awgn = false;      
 
 % Multipath channel model
-c_sim.chan_multipath = 'off';
+c_sim.chan_multipath = 'B';
 % 'off' for freq. flat channel
 % ETSI channel model: 'A','B','C','D', 'E','UMTS_A' or 'UMTS_B'
-c_sim.chan_fixed = false;  % 'true' if channel is fixed for whole simulation
+c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation
 c_sim.chan_norm = 0;       % normalise channel power to c_sim.chan_norm,
                            % don't normalise if c_sim.chan_norm == 0
 c_sim.chan_vel = -1;       % mobile velocity in m/s (if vel >= 0,
@@ -474,4 +474,8 @@ end; %drate loop;
 toc
 
 filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
-save(filename, 'c_sim', 'ber', 'per')
+if c_sim.chan_fixed
+    save(filename, 'c_sim', 'ber', 'per','C_channel')
+else
+    save(filename, 'c_sim', 'ber', 'per')
+end
