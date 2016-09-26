@@ -15,7 +15,7 @@ c_sim.release = 'wisil_11n_1.0';     % simulator release
 % Main Simulation Parameters
 
 % Eb/N0 values in dB
-c_sim.EbN0s = -30:1:30;  
+c_sim.EbN0s = -5:1:30;  
 
 % simulation length
 c_sim.min_npackets = 500;    %minimum number of packets
@@ -31,6 +31,9 @@ c_sim.min_bit_errors = 5;   %minimum number of bit errors
 
 % display simulation status every <c_sim.display_npack>
 c_sim.display_npack = 100;
+
+% Simplified results for L2S implementations
+L2S_Res = true;
 
 c_sim.rnd_state = 1;		% initial state of random number generator
 
@@ -140,7 +143,7 @@ end
 % Channel Parameters
 
 % AWGN channel enable/disable
-c_sim.chan_awgn = false;      
+c_sim.chan_awgn = true;      
 
 % Multipath channel model
 c_sim.chan_multipath = 'B';
@@ -372,7 +375,6 @@ for drate_index = 1:length(c_sim.drates)
             end
         end
         C_channel = fft(c,parameters.Nfft,2); % channel in frequency domain
-           
      
         % simulation of one OFDM burst
         
@@ -471,11 +473,16 @@ for drate_index = 1:length(c_sim.drates)
     end
 end; %drate loop;
 
+if exists('num_Chann_Rea') == 1
+    SNRp = calc_SNRp(c_sim,C_channel);
+end
+
 toc
 
-filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
-if c_sim.chan_fixed
-    save(filename, 'c_sim', 'ber', 'per','C_channel')
+if exists('num_Chann_Rea') == 1
+    filename = ['results_' c_sim.version '_' num2str(num_Chann_Rea) '.mat'];   
+    save(filename, 'SNRp','per')
 else
+    filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
     save(filename, 'c_sim', 'ber', 'per')
 end
