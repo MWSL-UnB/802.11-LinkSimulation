@@ -1,4 +1,4 @@
-function SNRp = calc_SNRp(c_sim,C_channel)
+function varargout = calc_SNRp(c_sim,C_channel)
 
 switch c_sim.w_channel
     case 20
@@ -21,12 +21,12 @@ end
 subFreqs = subSpacing.*subIdxs;
 
 bw2 = c_sim.w_channel/2;
-freq = linspace(-bw2,bw2,length(C_channel));
+varargout{2} = linspace(-bw2,bw2,length(C_channel));
 
-SNRp = zeros(length(c_sim.EbN0s),length(subFreqs));
+varargout{1} = zeros(length(c_sim.EbN0s),length(subFreqs));
 for k = 1:length(c_sim.EbN0s)
     SNR = (10.^(c_sim.EbN0s(k)/10)).*(abs(C_channel)).^2;
-    SNRp(k,:) = interp1(freq,SNR,subFreqs,'linear');
+    varargout{1}(k,:) = interp1(freq,SNR,subFreqs,'linear');
 end
 
 end
