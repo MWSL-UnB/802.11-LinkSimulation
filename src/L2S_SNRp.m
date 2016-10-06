@@ -1,4 +1,4 @@
-function varargout = calc_SNRp(c_sim,C_channel)
+function varargout = L2S_SNRp(c_sim,C_channel)
 
 switch c_sim.w_channel
     case 20
