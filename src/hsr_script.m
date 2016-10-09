@@ -293,3 +293,7 @@ if exist('L2S','var') == 0 % Only run this section if not called by L2S script
     save(filename, 'c_sim', 'ber', 'per');
     
 end
+
+%% Clear variables
+clear CRC_LENGTH;
+clear HEADER_LENGTH;

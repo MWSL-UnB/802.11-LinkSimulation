@@ -1,8 +1,6 @@
-function [per,ber,C_channel] = hsr_sim(varargin)
+function [per,ber,C_channel] = hsr_sim(parameters)
 
 global c_sim;
-
-parameters = varargin{1};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Initialize Simulation
@@ -58,7 +56,7 @@ for drate_index = 1:length(c_sim.drates)
         warning('Multipath Channel disabled');
     end
     
-    if c_sim.chan_fixed && nargin < 2
+    if c_sim.chan_fixed
         
         warning('Channel is constant for all packets');
         
@@ -91,11 +89,7 @@ for drate_index = 1:length(c_sim.drates)
                 c = 1;
             end
         end
-        if c_sim.chan_fixed && nargin == 2
-            C_channel = varargin{2};
-        else
-            C_channel = fft(c,parameters.Nfft,2); % channel in frequency domain
-        end
+        C_channel = fft(c,parameters.Nfft,2); % channel in frequency domain
         
         % simulation of one OFDM burst
         

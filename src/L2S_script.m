@@ -9,7 +9,7 @@ global c_sim;
 L2S = true; % Flag for L2S simulation
 
 % Maximum number of channel realizations
-L2SStruct.maxChannRea = 1;
+L2SStruct.maxChannRea = 2;
 % Channel models
 L2SStruct.chan_multipath = {'B'};
 % Standards to simulate

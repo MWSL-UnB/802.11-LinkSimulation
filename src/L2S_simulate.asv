@@ -1,4 +1,4 @@
-function L2S_simulate(L2SStruct,parameters)
+function 'SNRp','per','perAWGN' = L2S_simulate(L2SStruct,parameters)
 
 global c_sim;
 
@@ -32,21 +32,21 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                         disp(['Cyclic prefix: '...
                             L2SStruct.cyclic_prefix{cyPre}]);
                         disp(['Data length: ' num2str(data_len)]);
-                        disp(['Channel realization: '...
-                            num2str(numChannRea)]);
-                        disp('Simulating AWGN');
+                        disp('Simulating AWGN...');
                     end
                     
                     c_sim.chan_multipath = 'off';
                     
-                    [perAWGN,~,C_channel] = hsr_sim(parameters);
+                    [perAWGN,~,~] = hsr_sim(parameters);
                     
                     c_sim.chan_multipath = L2SStruct.chan_multipath{chMult};
                     
                     for numChannRea = 1:L2SStruct.maxChannRea
                         
                         if L2SStruct.display
-                            disp()
+                            disp('Simulating with multipath');
+                            disp(['Channel realization: '...
+                                num2str(numChannRea)]);
                         end
                         
                         [per,~,C_channel] = hsr_sim(parameters);

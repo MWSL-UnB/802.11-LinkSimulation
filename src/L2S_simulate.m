@@ -32,12 +32,12 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                         disp(['Cyclic prefix: '...
                             L2SStruct.cyclic_prefix{cyPre}]);
                         disp(['Data length: ' num2str(data_len)]);
-                        disp('Simulating AWGN');
+                        disp('Simulating AWGN...');
                     end
                     
                     c_sim.chan_multipath = 'off';
                     
-                    [perAWGN,~,C_channel] = hsr_sim(parameters);
+                    [perAWGN,~,~] = hsr_sim(parameters);
                     
                     c_sim.chan_multipath = L2SStruct.chan_multipath{chMult};
                     
@@ -49,7 +49,7 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                                 num2str(numChannRea)]);
                         end
                         
-                        [per,~,~] = hsr_sim(parameters,C_channel);
+                        [per,~,C_channel] = hsr_sim(parameters);
                         SNRp = L2S_SNRp(c_sim,C_channel);
                         
                         filename = ['L2S_results_' num2str(simNum) '.mat'];
