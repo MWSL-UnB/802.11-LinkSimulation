@@ -13,7 +13,7 @@ L2SStruct.maxChannRea = 2;
 % Channel models
 L2SStruct.chan_multipath = {'B'};
 % Standards to simulate
-L2SStruct.version = {'802.11n'};
+L2SStruct.version = {'802.11n' '802.11ac'};
 % Channel bandwidths
 L2SStruct.w_channel = [20];
 % Cyclic prefixes
@@ -29,3 +29,8 @@ hsr_script; % Initialize c_sim
 %% Simulate to calculate SNRps and PERs
 
 L2S_simulate(L2SStruct,parameters);
+
+%% Optimize beta
+
+
+
