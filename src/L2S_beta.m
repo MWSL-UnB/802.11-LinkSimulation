@@ -1,4 +1,4 @@
-function [minbeta,rmse] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx)
+function [minbeta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx)
 
 rmse_vec = zeros(size(L2SStruct.betas));
 

@@ -39,14 +39,8 @@ configNum = length(L2SStruct.chan_multipath)*length(L2SStruct.version)*...
     length(L2SStruct.data_len);
 totalSimNum = chanNum*L2SStruct.maxChannRea;
 
-for numSim = 1:L2SStruct.maxChannRea:(totalSimNum - L2SStruct.maxChannRea + 1)
-    
+for numSim = 1:L2SStruct.maxChannRea
     [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim);
-    [minbeta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx);
-    
-    filename = ['L2S_beta_results_' ...
-        num2str(mod(numSim-1,L2SStruct.maxChannRea) + 1) '.mat'];
-    save(filename,'L2SStruct','minbeta','rmse','rmse_vec');
-    
+    [minbeta,rmse] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx);
 end
 
