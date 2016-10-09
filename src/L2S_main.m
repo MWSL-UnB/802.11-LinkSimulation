@@ -1,5 +1,7 @@
 function L2S_main
 
+%% Loading and data formating
+
 numSim = 1;
 load('L2S_results_1.mat');
 
@@ -24,11 +26,35 @@ end % Channel realizations loop
 
 per_mtx = permute(per_mtx_pre,[3 2 1]);
 
-SNR_AWGN = zeros([length(c_sim.drates) length(c_sim.EbN0s)]);
-for dRate = c_sim.drates
-    SNR_AWGN(dRate,:) = (c_sim.EbN0s).*(hsr_drate_param(dRate,false))/c_sim.w_channel;
+snrAWGN_mtx = zeros([length(c_sim.drates) length(c_sim.EbN0s)]);
+for mcs = c_sim.drates
+    drP = hsr_drate_param(mcs,false);
+    snrAWGN_mtx(mcs,:) = (c_sim.EbN0s).*(drP.data_rate)/c_sim.w_channel;
 end % Data rates loop
 
 numSim = numSim + L2SStruct.maxChannRea;
+
+%% Beta calculation
+
+rmse_vec = zeros(size(L2SStruct.betas));
+
+for mcs = c_sim.drates
+    
+    per = per_mtx(:,:,mcs);
+    snrAWGN = snrAWGN_mtx(mcs,:);
+    perAWGN = perAWGN_mtx(mcs,:);
+    
+    j = 1;
+    
+    for beta = L2SStruct.betas
+        
+        SNReff_mtx = L2S_SNReff(SNRp_mtx,beta);
+        SNReff = permute(per_mtx_pre,[1 3 2]);
+        
+        rmse_vec(j) = L2S_rmse(SNReff,per,snrAWGN,perAWGN);
+        
+        j = j + 1;
+    end
+end
 
 end

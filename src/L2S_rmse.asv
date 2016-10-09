@@ -1,0 +1,8 @@
+function rmse = L2S_rmse(SNReff,per,snrAWGN,perAWGN)
+
+Mi = size(per,2);
+Mk = size(per,1);
+
+perAWGN_int = 
+
+end

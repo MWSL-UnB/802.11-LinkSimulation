@@ -37,7 +37,7 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                     
                     c_sim.chan_multipath = 'off';
                     
-                    [perAWGN,~,~] = hsr_sim(parameters);
+                    [perAWGN_mtx,~,~] = hsr_sim(parameters);
                     
                     c_sim.chan_multipath = L2SStruct.chan_multipath{chMult};
                     
@@ -53,7 +53,7 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                         SNRp = L2S_SNRp(c_sim,C_channel);
                         
                         filename = ['L2S_results_' num2str(simNum) '.mat'];
-                        save(filename,'L2SStruct','c_sim','SNRp','per','perAWGN');
+                        save(filename,'L2SStruct','c_sim','SNRp','per','perAWGN_mtx');
                         simNum = simNum + 1;
                         
                     end % SNRps loop

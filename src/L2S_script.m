@@ -20,6 +20,8 @@ L2SStruct.w_channel = [20];
 L2SStruct.cyclic_prefix = {'long'};
 % Data length of PSDUs in bytes
 L2SStruct.data_len = [1000];
+% Beta range and resolution
+L2SStruct.betas = 0:0.5:30;
 
 % Display simulation status
 L2SStruct.display = true;
