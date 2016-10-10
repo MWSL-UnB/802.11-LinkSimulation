@@ -142,7 +142,7 @@ end
 c_sim.chan_awgn = true;
 
 % Multipath channel model
-c_sim.chan_multipath = 'B';
+c_sim.chan_multipath = 'E';
 % 'off' for freq. flat channel
 % ETSI channel model: 'A','B','C','D', 'E','UMTS_A' or 'UMTS_B'
 c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation
