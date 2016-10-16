@@ -23,7 +23,7 @@ L2SStruct.cyclic_prefix = {'long'};
 % Data length of PSDUs in bytes
 L2SStruct.data_len = [1000];
 % Beta range and resolution
-L2SStruct.betas = 0.5:0.1:10;
+L2SStruct.betas = 0.5:0.5:10;
 
 % Display simulation status
 L2SStruct.display = true;
@@ -64,6 +64,6 @@ disp('Done!');
 
 figure(1);
 plot(L2SStruct.betas,rmse_vec,'LineWidth',2);
-legend('MCS0','MCS1','MCS2','MCS3','MCS4','MCS5','MCS6','MCS7');
+legend('MCS0','MCS1','MCS1','MCS1',);
 xlabel('\beta');
 ylabel('rmse');

@@ -1,12 +1,13 @@
 function rmse = L2S_rmse(SNReff,per,snrAWGN,perAWGN)
 
-Mi = size(per,2);
-Mk = size(per,1);
-
 perAWGN_int = interp1(snrAWGN,perAWGN,SNReff);
 
-delta = log10(per./perAWGN_int);
+delta_pre = log10(per./perAWGN_int);
+delta = delta_pre(isfinite(delta_pre));
 
-rmse = sqrt(sum(sum(delta))/(Mi*Mk));
+Mi = size(delta,2);
+Mk = size(delta,1);
+
+rmse = sqrt(sum(sum(delta.^2))/(Mi*Mk));
 
 end

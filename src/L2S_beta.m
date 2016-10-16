@@ -1,27 +1,28 @@
-function [minbeta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx)
+function [minbeta,rmse,rmse_mtx] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct)
 
-rmse_vec = zeros(size(L2SStruct.betas));
+global c_sim
 
-for mcs = c_sim.drates
+rmse_mtx = zeros(length(c_sim.drates),length(L2SStruct.betas));
+
+for mcs = c_sim.drates % MCS loop
     
-    per = per_mtx(:,:,mcs);
-    snrAWGN = snrAWGN_mtx(mcs,:);
-    perAWGN = perAWGN_mtx(mcs,:);
+    per = per_mtx(:,:,(mcs + 1));
+    snrAWGN = snrAWGN_mtx((mcs + 1),:);
+    perAWGN = perAWGN_mtx((mcs + 1),:);
     
     j = 1;
     
     for beta = L2SStruct.betas
         
-        SNReff_mtx = L2S_SNReff(SNRp_mtx,beta);
-        SNReff = permute(SNReff_mtx,[1 3 2]);
+        SNReff = L2S_SNReff(SNRp_mtx,beta);
         
-        rmse_vec(j) = L2S_rmse(SNReff,per,snrAWGN,perAWGN);
+        rmse_mtx(mcs + 1,j) = L2S_rmse(SNReff,per,snrAWGN,perAWGN);
         
         j = j + 1;
     end
 end
 
-[rmse,minIdx] = min(rmse_vec);
-minbeta = beta(minIdx);
+[rmse,minIdx] = min(rmse_mtx,[],2);
+minbeta = L2SStruct.betas(minIdx);
 
 end

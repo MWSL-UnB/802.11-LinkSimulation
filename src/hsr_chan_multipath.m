@@ -3,7 +3,7 @@ function [varargout] = hsr_chan_multipath(varargin)
 %                           baseband
 %
 %   This function generates a multipath channel with exponentially decaying 
-%   multipathes according to [1]. The channel must bi initialised with 'init'
+%   multipathes according to [1]. The channel must be initialised with 'init'
 %   and the 'fade'-method must be called at least once before the channel is
 %   used. Every time the 'fade' method is called the fading coefficients of 
 %   all the paths are changed.
