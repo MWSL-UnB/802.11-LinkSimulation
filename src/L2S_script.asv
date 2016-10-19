@@ -61,13 +61,11 @@ toc
 disp('Done!');
 
 %% Plot
-for k = 1:configNum
-    filename = ['L2S_beta_results_' num2str(k) '.mat'];
-    load(filename);
-    figure(k);
-    plot(L2SStruct.betas,rmse_vec,'LineWidth',2);
-    legend('MCS0','MCS1','MCS2','MCS3','MCS4','MCS5','MCS6','MCS7');
-    xlabel('\beta');
-    ylabel('rmse');
-    title(['Scenario ' num2str(k)]);
+for k = 1:5
+figure(k);
+plot(L2SStruct.betas,rmse_vec,'LineWidth',2);
+legend('MCS0','MCS1','MCS2','MCS3','MCS4','MCS5','MCS6','MCS7');
+xlabel('\beta');
+ylabel('rmse');
+title(['Scenario ' num2st])
 end

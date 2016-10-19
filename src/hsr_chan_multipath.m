@@ -12,8 +12,8 @@ function [varargout] = hsr_chan_multipath(varargin)
 %                           VELOCITY,FADING_INTERVAL)
 %     Initializes channel unit sample response and channel state. Independent
 %     channel instances are created between each transmit and receive antenna.
-%     MODEL = 'A','B','C','D', 'E','UMTS_A' or 'UMTS_B' specifies the channel environment
-%     according to [1]
+%     MODEL = 'A','B','C','D', 'E' or 'F' specifies the channel environment
+%     according to [2]
 %     TS = sampling period in seconds
 %     ROLLOFF = roll-off factor of transmit filter
 %     SEED = initial state of random number generator (default = 1)

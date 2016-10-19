@@ -143,8 +143,8 @@ c_sim.chan_awgn = true;
 
 % Multipath channel model
 c_sim.chan_multipath = 'E';
-% 'off' for freq. flat channel
-% ETSI channel model: 'A','B','C','D', 'E','UMTS_A' or 'UMTS_B'
+% 'off' or 'A' for freq. flat channel
+% 802.11n channel model: 'A','B','C','D', 'E' or 'F'
 c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation
 c_sim.chan_norm = 0;       % normalise channel power to c_sim.chan_norm,
 % don't normalise if c_sim.chan_norm == 0
