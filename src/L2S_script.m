@@ -1,8 +1,8 @@
-% clc
-% clear all
-% close all
-% 
-% global c_sim;
+clc
+clear all
+close all
+
+global c_sim;
 
 tic
 
@@ -28,11 +28,13 @@ L2SStruct.betas = 0.5:0.1:10;
 % Display simulation status
 L2SStruct.display = true;
 
+L2SStruct.folderName = 'L2SResults2';
+
 hsr_script; % Initialize c_sim
 
 %% Simulate to calculate SNRps and PERs
 
-% L2S_simulate(L2SStruct,parameters);
+L2S_simulate(L2SStruct,parameters);
 
 toc
 
@@ -50,7 +52,7 @@ for numSim = 1:L2SStruct.maxChannRea:(totalSimNum - L2SStruct.maxChannRea + 1)
     [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim);
     [beta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct);
     
-    filename = ['L2S_beta_results_' ...
+    filename = [L2SStruct.folderName '\L2S_beta_results_' ...
         num2str((numSim + L2SStruct.maxChannRea - 1)/L2SStruct.maxChannRea)...
         '.mat'];
     save(filename,'L2SStruct','beta','rmse','rmse_vec');
@@ -62,7 +64,7 @@ disp('Done!');
 
 %% Plot
 for k = 1:configNum
-    filename = ['L2S_beta_results_' num2str(k) '.mat'];
+    filename = [L2SStruct.folderName '\L2S_beta_results_' num2str(k) '.mat'];
     load(filename);
     figure(k);
     plot(L2SStruct.betas,rmse_vec,'LineWidth',2);
