@@ -24,8 +24,6 @@ L2SStruct.cyclic_prefix = {'long'};
 L2SStruct.data_len = [1000];
 % Beta range and resolution
 L2SStruct.betas = 0.5:0.1:30;
-% Random generator seeds (must be of length L2SStruct.maxChannRea)
-L2SStruct.seeds = 1:L2SStruct.maxChannRea;
 
 % Display simulation status
 L2SStruct.display = true;

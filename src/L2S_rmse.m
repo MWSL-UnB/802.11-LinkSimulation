@@ -1,6 +1,6 @@
 function rmse = L2S_rmse(SNReff,per,snrAWGN,perAWGN)
 
-perAWGN_int = interp1(snrAWGN,perAWGN,SNReff);
+perAWGN_int = interp1(snrAWGN,perAWGN,SNReff,'cubic');
 
 delta_pre = log10(per./perAWGN_int);
 delta = delta_pre(isfinite(delta_pre));

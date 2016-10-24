@@ -14,7 +14,7 @@ c_sim.release = 'wisil_11n_1.0';     % simulator release
 %% Main Simulation Parameters
 
 % Eb/N0 values in dB
-c_sim.EbN0s = -5:1:30;
+c_sim.EbN0s = 2:0.5:20;
 
 % simulation length
 c_sim.min_npackets = 500;    %minimum number of packets

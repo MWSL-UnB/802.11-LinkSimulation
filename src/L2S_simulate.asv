@@ -49,7 +49,7 @@ for chMult = 1:length(L2SStruct.chan_multipath)
                                 num2str(numChannRea)]);
                         end
                         
-                        c_sim.rnd_state = L2SStruct.seeds(numChannRea);
+                        c_sim.rnd_state = L2SStruct.seeds()
                         
                         [per,~,C_channel] = hsr_sim(parameters);
                         SNRp = L2S_SNRp(c_sim,C_channel);
