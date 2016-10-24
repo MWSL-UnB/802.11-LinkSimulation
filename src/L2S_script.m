@@ -11,11 +11,11 @@ tic
 L2S = true; % Flag for L2S simulation
 
 % Maximum number of channel realizations
-L2SStruct.maxChannRea = 2;
+L2SStruct.maxChannRea = 20;
 % Channel models
 L2SStruct.chan_multipath = {'B'};
 % Standards to simulate
-L2SStruct.version = {'802.11n' '802.11ac'};
+L2SStruct.version = {'802.11n'};
 % Channel bandwidths
 L2SStruct.w_channel = [20];
 % Cyclic prefixes
@@ -23,12 +23,12 @@ L2SStruct.cyclic_prefix = {'long'};
 % Data length of PSDUs in bytes
 L2SStruct.data_len = [1000];
 % Beta range and resolution
-L2SStruct.betas = 0.5:0.1:10;
+L2SStruct.betas = 0.5:0.1:30;
 
 % Display simulation status
 L2SStruct.display = true;
 
-L2SStruct.folderName = 'L2SResults2';
+L2SStruct.folderName = 'L2SResults3';
 
 hsr_script; % Initialize c_sim
 
@@ -49,7 +49,7 @@ totalSimNum = configNum*L2SStruct.maxChannRea;
 
 for numSim = 1:L2SStruct.maxChannRea:(totalSimNum - L2SStruct.maxChannRea + 1)
     
-    [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim);
+    [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim,L2SStruct);
     [beta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct);
     
     filename = [L2SStruct.folderName '\L2S_beta_results_' ...
