@@ -12,8 +12,7 @@ filename = 'Results\results_16-10-26-1412';
 load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
-fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n\n',c_sim.version,...
-    c_sim.cyclic_prefix,c_sim.w_channel);
+fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n',c_sim.version,c_sim.s);
 
 %% Definir SNR
 
@@ -74,14 +73,14 @@ for k = 1:length(rates1)
         T1fit(k,5),T1fit(k,4),T1fit(k,3),T1fit(k,2),T1fit(k,1));
 end
 
-fprintf(fid,'\n{');
+fprintf('\n{')
 for k = 1:length(rates1)
     fprintf(fid,'{%.6f,%.6f}',T2fit(k,2),T2fit(k,1));
     if k ~= length(rates1)
-        fprintf(fid,',');
+        fprintf(',')
     end
 end
-fprintf(fid,'}');
+fprintf('}')
 
 fprintf(fid,'\n\nmin = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T1V(1),T1V(2),...
     T1V(3),T1V(4),T1V(5),T1V(6),T1V(7),T1V(8));

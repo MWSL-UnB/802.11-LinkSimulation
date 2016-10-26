@@ -16,7 +16,7 @@ tic
 %% Main Simulation Parameters
 
 % Eb/N0 values in dB
-c_sim.EbN0s = 2:0.5:16;
+c_sim.EbN0s = -2:0.5:20;
 
 % simulation length
 c_sim.min_npackets = 500;    %minimum number of packets
@@ -291,13 +291,13 @@ if exist('L2S','var') == 0 % Only run this section if not called by L2S script
     
     [per,ber,C_channel] = hsr_sim(parameters);
     
-    filename = ['Results\results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
+    filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
     save(filename, 'c_sim', 'ber', 'per');
     
 end
 
 t1 = toc;
-fprintf('t1 = %f seconds',t1);
+fprintf('t1 = %f')
 
 %% Clear variables
 clear CRC_LENGTH;
