@@ -291,8 +291,8 @@ if exist('L2S','var') == 0 % Only run this section if not called by L2S script
     
     [per,ber,C_channel] = hsr_sim(parameters);
     
-    filename = ['Results\results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
-    save(filename, 'c_sim', 'ber', 'per');
+    filename = ['Results\results_' datestr(now, 'yy-mm-dd-HHMM')];
+    save([filename  '.mat'], 'c_sim', 'ber', 'per');
     
 end
 

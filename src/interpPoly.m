@@ -41,16 +41,19 @@ for k = 1:length(rates1)
     perV = per(k,:);
     SNRV = SNR(k,:);
     perIdx = find(perV >= 1);
-    T1 = SNRV(perIdx(end));
+    T1 = SNRV(perIdx(end) + 1);
     
     T1V(k) = T1;
     
     perIdx = find(perV > 0);
-    T2 = SNRV(perIdx(end));
+    T2 = SNRV(perIdx(end) - 1);
     
     T2V(k) = T2;
     
-    SNRIdxT1 = find(SNRV > T1 & SNRV < T2);
+    mrgnDo = 0.5;
+    mrgnUp = 1;
+    
+    SNRIdxT1 = find(SNRV > (T1 - mrgnDo) & SNRV < (T2 + mrgnUp));
     T1x = SNRV(SNRIdxT1);
     T1y = perV(SNRIdxT1);
     T1y = log10(T1y);
@@ -95,21 +98,26 @@ plotType = 'log';
 if ~strcmp(plotType,'off')
     for k = 1:8
         
-        T1Idx = find(SNR(k,:) == T1V(k));
-        T2Idx = find(SNR(k,:) == T2V(k));
+        SNR2 = min(SNR(k,:)):0.1:max(SNR(k,:));
+        
+        tmp1 = abs(SNR2 - T1V(k));
+        [~,T1Idx] = min(tmp1);
+        
+        tmp2 = abs(SNR2 - T2V(k));
+        [~,T2Idx] = min(tmp2);
         
         preT1 = log10(ones(1,T1Idx));
         
-        posT1 = SNR(k,(T1Idx + 1):(T2Idx -1));
+        posT1 = SNR2((T1Idx + 1):(T2Idx -1));
         posT1 = T1fit(k,5)+T1fit(k,4).*posT1+T1fit(k,3).*posT1.^2+...
             T1fit(k,2).*posT1.^3+T1fit(k,1).*posT1.^4;
         
-        snrMaxIdx = T2Idx + 4;
-        if snrMaxIdx > length(SNR(k,:))
-            snrMaxIdx = length(SNR(k,:));
+        snrMaxIdx = T2Idx + 10;
+        if snrMaxIdx > length(SNR2)
+            snrMaxIdx = length(SNR2);
         end
         
-        posT2 = SNR(k,T2Idx:snrMaxIdx);
+        posT2 = SNR2(T2Idx:snrMaxIdx);
         posT2 = T2fit(k,2)+T2fit(k,1).*posT2;
         
         fitPerLog = [preT1 posT1 posT2];
@@ -119,13 +127,13 @@ if ~strcmp(plotType,'off')
         if strcmp(plotType,'log')
             semilogy(SNR(k,:),per(k,:),'bo','LineWidth',2);
             hold on
-            semilogy(SNR(k,1:snrMaxIdx),fitPer,'r-','LineWidth',2);
+            semilogy(SNR2(1:snrMaxIdx),fitPer,'r-','LineWidth',2);
             semilogy(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
             hold off
         else
             plot(SNR(k,:),per(k,:),'bo','LineWidth',2);
             hold on
-            plot(SNR(k,1:snrMaxIdx),fitPer,'r-','LineWidth',2);
+            plot(SNR2(1:snrMaxIdx),fitPer,'r-','LineWidth',2);
             plot(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
             hold off
         end
