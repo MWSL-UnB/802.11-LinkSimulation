@@ -10,13 +10,11 @@ global c_sim; % basic simulation paramters
 
 c_sim.release = 'wisil_11n_1.0';     % simulator release
 
-tic
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Main Simulation Parameters
 
 % Eb/N0 values in dB
-c_sim.EbN0s = 2:0.5:16;
+c_sim.EbN0s = 2:0.5:20;
 
 % simulation length
 c_sim.min_npackets = 500;    %minimum number of packets
@@ -144,10 +142,10 @@ end
 c_sim.chan_awgn = true;
 
 % Multipath channel model
-c_sim.chan_multipath = 'off';
+c_sim.chan_multipath = 'E';
 % 'off' or 'A' for freq. flat channel
 % 802.11n channel model: 'A','B','C','D', 'E' or 'F'
-c_sim.chan_fixed = false;  % 'true' if channel is fixed for whole simulation
+c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation
 c_sim.chan_norm = 0;       % normalise channel power to c_sim.chan_norm,
 % don't normalise if c_sim.chan_norm == 0
 c_sim.chan_vel = -1;       % mobile velocity in m/s (if vel >= 0,
@@ -291,13 +289,10 @@ if exist('L2S','var') == 0 % Only run this section if not called by L2S script
     
     [per,ber,C_channel] = hsr_sim(parameters);
     
-    filename = ['Results\results_' datestr(now, 'yy-mm-dd-HHMM')];
-    save([filename  '.mat'], 'c_sim', 'ber', 'per');
+    filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
+    save(filename, 'c_sim', 'ber', 'per');
     
 end
-
-t1 = toc;
-fprintf('t1 = %f seconds',t1);
 
 %% Clear variables
 clear CRC_LENGTH;

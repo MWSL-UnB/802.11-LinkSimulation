@@ -1,0 +1,4 @@
+802.11ac
+GI: long
+Band: 20 MHz
+

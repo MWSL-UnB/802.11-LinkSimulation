@@ -5,8 +5,12 @@ perAWGN_int = interp1(snrAWGN,perAWGN,SNReff,'pchip');
 delta_pre = log10(per./perAWGN_int);
 delta = delta_pre(isfinite(delta_pre));
 
-MiMk = length(delta);
+Mi = size(delta,2);
+Mk = size(delta,1);
 
-rmse = sqrt(sum(delta.^2)/MiMk);
+rmse = sqrt(sum(sum(delta.^2))/(Mi*Mk));
+
+fprintf('\nMi = %d',Mi);
+fprintf('Mk = ')
 
 end

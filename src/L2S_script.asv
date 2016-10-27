@@ -23,7 +23,7 @@ L2SStruct.cyclic_prefix = {'long'};
 % Data length of PSDUs in bytes
 L2SStruct.data_len = [1000];
 % Beta range and resolution
-L2SStruct.betas = 0.1:0.05:50;
+L2SStruct.betas = 0.1:0.1:100;
 % Random generator seeds (must be of length L2SStruct.maxChannRea)
 L2SStruct.seeds = 1:L2SStruct.maxChannRea;
 
@@ -55,26 +55,11 @@ for numSim = 1:L2SStruct.maxChannRea:(totalSimNum - L2SStruct.maxChannRea + 1)
     [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim,L2SStruct);
     [beta,rmse,rmse_vec] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct);
     
-    betaNum = (numSim + L2SStruct.maxChannRea - 1)/L2SStruct.maxChannRea;
-    
-    filename = [L2SStruct.folderName '\L2S_beta_results_' num2str(betaNum)];
-    save([filename '.mat'],'L2SStruct','beta','rmse','rmse_vec','SNRp_mtx',...
+    filename = [L2SStruct.folderName '\L2S_beta_results_' ...
+        num2str((numSim + L2SStruct.maxChannRea - 1)/L2SStruct.maxChannRea)...
+        '.mat'];
+    save(filename,'L2SStruct','beta','rmse','rmse_vec','SNRp_mtx',...
         'per_mtx','snrAWGN_mtx','perAWGN_mtx','t1');
-    
-    fid = fopen([filename '.txt'],'wt');
-    fprintf(fid,'%s\nGI: %s\nBand: %d MHz',L2SStruct.version{betaNum},...
-        L2SStruct.cyclic_prefix{betaNum},L2SStruct.w_channel(betaNum));
-    fprintf(fid,'\nChannel model: %s',L2SStruct.chan_multipath{betaNum});
-    
-    fprintf(fid,'\n\nbetas = {');
-    for mcs = c_sim.drates + 1
-        fprintf(fid,' %.4f',beta(mcs));
-        if mcs~= length(c_sim.drates)
-            fprintf(fid,',');
-        end
-    end
-    fprintf(fid,'}');
-    fclose(fid);
     
 end
 
@@ -103,38 +88,12 @@ for k = 1:configNum
         grid on;
         hold on;
         
-        subBeta = 1;
-        
-        drP = hsr_drate_param(mcs - 1,false);
-        SNReff = L2S_SNReff(SNRp_mtx.*(drP.data_rate/c_sim.w_channel),subBeta);
-        subRmse = L2S_rmse(SNReff,per_mtx(:,:,mcs),snrAWGN_mtx(mcs,:),...
-            perAWGN_mtx(mcs,:));
-        
-        semilogy(db(SNReff,'power'),per_mtx(:,:,mcs),'r.');
-        
-        title(['MCS' num2str(mcs - 1) ', suboptimal \beta = ' ...
-            num2str(subBeta) ', rmse = ' num2str(subRmse)]);
-        
-        hold off;
-    end
-    
-    for mcs = c_sim.drates + 1
-        
-        figure(configNum + mcs + c_sim.drates(end) + 1);
-        semilogy(db(snrAWGN_mtx(mcs,:),'power'),perAWGN_mtx(mcs,:),...
-            'linewidth',2.5);
-        xlabel('SNR [dB]');
-        ylabel('PER');
-        grid on;
-        hold on;
-        
         drP = hsr_drate_param(mcs - 1,false);
         SNReff = L2S_SNReff(SNRp_mtx.*(drP.data_rate/c_sim.w_channel),beta(mcs));
         
         semilogy(db(SNReff,'power'),per_mtx(:,:,mcs),'r.');
         
-        title(['MCS' num2str(mcs - 1) ', optimal \beta = ' ...
-            num2str(beta(mcs)) ', rmse = ' num2str(rmse(mcs))]);
+        title(['MCS' num2str(mcs - 1) ', optimal \beta = ']);
         
         hold off;
     end

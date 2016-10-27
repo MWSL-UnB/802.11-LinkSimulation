@@ -1,5 +1,5 @@
 clc
-% clear all
+clear all
 close all
 
 %% Simulate or load
@@ -8,7 +8,7 @@ close all
 % hsr_script;
 
 fprintf('\n\nLoad!\n\n');
-filename = 'Results\results_16-10-26-1412';
+filename = 'Results\results_02-05-07-2235';
 load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
@@ -96,7 +96,7 @@ fprintf(fid,'max = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T2V(1),T2V(2)
 plotType = 'log';
 
 if ~strcmp(plotType,'off')
-    for k = 1:8
+    for k = c_sim.drates + 1
         
         SNR2 = min(SNR(k,:)):0.1:max(SNR(k,:));
         

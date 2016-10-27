@@ -1,4 +1,4 @@
-function [minbeta,rmse,rmse_mtx] = L2S_beta(EbN0p_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct)
+function [minbeta,rmse,rmse_mtx] = L2S_beta(SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx,L2SStruct)
 
 global c_sim
 
@@ -16,7 +16,7 @@ for mcs = c_sim.drates % MCS loop
         
         drP = hsr_drate_param(mcs,false);
         
-        SNReff = L2S_SNReff(EbN0p_mtx.*(drP.data_rate/c_sim.w_channel),beta);
+        SNReff = L2S_SNReff(SNRp_mtx.*(),beta);
         
         rmse_mtx(mcs + 1,j) = L2S_rmse(SNReff,per,snrAWGN,perAWGN);
         
