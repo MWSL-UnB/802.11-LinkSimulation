@@ -37,7 +37,7 @@ c_sim.rnd_state = 1;		% initial state of random number generator
 %% Transmitter Parameters
 
 % Standards Version ('802.11a', '802.11n' or '802.11ac')
-c_sim.version = '802.11n';
+c_sim.version = '802.11ac';
 
 % data length of each PSDU in bytes
 c_sim.data_len = 1000;
@@ -46,7 +46,7 @@ c_sim.data_len = 1000;
 c_sim.cyclic_prefix = 'long';
 
 % channel bandwidth
-c_sim.w_channel = 20; %20MHz or 40 MHz
+c_sim.w_channel = 160; %20MHz or 40 MHz
 
 % windowing
 c_sim.timedomwindowing = false; % timedomain windowing
@@ -142,7 +142,7 @@ end
 c_sim.chan_awgn = true;
 
 % Multipath channel model
-c_sim.chan_multipath = 'E';
+c_sim.chan_multipath = 'B';
 % 'off' or 'A' for freq. flat channel
 % 802.11n channel model: 'A','B','C','D', 'E' or 'F'
 c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation

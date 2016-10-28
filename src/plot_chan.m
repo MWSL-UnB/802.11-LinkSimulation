@@ -1,16 +1,28 @@
 clc
+clear all
 close all
 
 %% Load variables
 
-load('test_results.mat');
+L2S = true;
+hsr_script;
+
+hsr_chan_multipath('init',c_sim.chan_multipath, ...
+    1/c_sim.sampling_freq,c_sim.ch_rolloff, ...
+    c_sim.rnd_state,c_sim.antennas, ...
+    c_sim.chan_vel,c_sim.frame_interval/2);
+c = hsr_chan_multipath('fade',c_sim.chan_norm);
+
+t = (-2:(length(c)-3)).*(1/(c_sim.w_channel*1e6));
+
+% load('test_results.mat');
 
 %% Plot time domain
 
 figure(1);
 h = abs(c);
-plot((t-min(t))*1e9,h,'LineWidth',1.2);
-axis([0 1900 0 0.6]);
+plot((t)*1e9,h,'LineWidth',1.2);
+axis([0 max(t*1e9) 0 0.7]);
 xlabel('t [ns]');
 ylabel('|h(t)|');
 print('-dpng','figs\channel_response_time.png');
@@ -20,7 +32,7 @@ print('-dpng','figs\channel_response_time.png');
 figure(2);
 S = abs(c.^2);
 plot((t+min(t))*1e9,10*log10(S),'LineWidth',1.2);
-axis([-200 1700 -60 0]);
+axis([0 max(t*1e9) -100 0]);
 xlabel('Atraso \tau [ns]');
 ylabel('|S(\tau)| [dB]');
 print('-dpng','figs\channel_response_S.png');
