@@ -37,7 +37,7 @@ c_sim.rnd_state = 1;		% initial state of random number generator
 %% Transmitter Parameters
 
 % Standards Version ('802.11a', '802.11n' or '802.11ac')
-c_sim.version = '802.11ac';
+c_sim.version = '802.11n';
 
 % data length of each PSDU in bytes
 c_sim.data_len = 1000;
@@ -46,7 +46,7 @@ c_sim.data_len = 1000;
 c_sim.cyclic_prefix = 'long';
 
 % channel bandwidth
-c_sim.w_channel = 160; %20MHz or 40 MHz
+c_sim.w_channel = 40; %20MHz or 40 MHz
 
 % windowing
 c_sim.timedomwindowing = false; % timedomain windowing
@@ -142,10 +142,10 @@ end
 c_sim.chan_awgn = true;
 
 % Multipath channel model
-c_sim.chan_multipath = 'B';
+c_sim.chan_multipath = 'off';
 % 'off' or 'A' for freq. flat channel
 % 802.11n channel model: 'A','B','C','D', 'E' or 'F'
-c_sim.chan_fixed = true;  % 'true' if channel is fixed for whole simulation
+c_sim.chan_fixed = false;  % 'true' if channel is fixed for whole simulation
 c_sim.chan_norm = 0;       % normalise channel power to c_sim.chan_norm,
 % don't normalise if c_sim.chan_norm == 0
 c_sim.chan_vel = -1;       % mobile velocity in m/s (if vel >= 0,
@@ -289,8 +289,8 @@ if exist('L2S','var') == 0 % Only run this section if not called by L2S script
     
     [per,ber,C_channel] = hsr_sim(parameters);
     
-    filename = ['results_' datestr(now, 'yy-mm-dd-HHMM') '.mat'];
-    save(filename, 'c_sim', 'ber', 'per');
+    filename = ['results_' datestr(now, 'yy-mm-dd-HHMM')];
+    save([filename  '.mat'], 'c_sim', 'ber', 'per');
     
 end
 

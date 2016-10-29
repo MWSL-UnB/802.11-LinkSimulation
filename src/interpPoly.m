@@ -4,12 +4,12 @@ close all
 
 %% Simulate or load
 
-% fprintf('\n\nSimulate!\n\n');
-% hsr_script;
+fprintf('\n\nSimulate!\n\n');
+hsr_script;
 
-fprintf('\n\nLoad!\n\n');
-filename = 'Results\results_02-05-07-2235';
-load([filename '.mat']);
+% fprintf('\n\nLoad!\n\n');
+% filename = 'Results\results_16-10-28-2019';
+% load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
 fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n\n',c_sim.version,...
@@ -62,6 +62,9 @@ for k = 1:length(rates1)
     %         T1fit(5),T1fit(4),T1fit(3),T1fit(2),T1fit(1));
     
     perIdxT2 = find(perV == 0);
+    if numel(perIdxT2) == 0
+        perIdxT2 = length(perV) + 1;
+    end
     T2y = perV(perIdxT2(1)-2:perIdxT2(1)-1);
     T2y = log10(T2y);
     T2x = SNRV(perIdxT2(1)-2:perIdxT2(1)-1);
