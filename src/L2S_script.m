@@ -103,7 +103,7 @@ for k = 1:configNum
         grid on;
         hold on;
         
-        subBeta = 1;
+        subBeta = beta(mcs)/10;
         
         drP = hsr_drate_param(mcs - 1,false);
         SNReff = L2S_SNReff(SNRp_mtx.*(drP.data_rate/c_sim.w_channel),subBeta);
