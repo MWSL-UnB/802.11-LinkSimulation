@@ -125,6 +125,8 @@ for k = 1:configNum
         title(['MCS' num2str(mcs - 1) ', \beta = ' ...
             num2str(subBeta) ' subótimo, rmse = ' num2str(subRmse)]);
         
+        legend('AWGN','Multipercursos','Location','SouthWest');
+        
         hold off;
     end
     
@@ -146,12 +148,14 @@ for k = 1:configNum
         title(['MCS' num2str(mcs - 1) ', \beta = ' ...
             num2str(beta(mcs)) ' ótimo, rmse = ' num2str(rmse(mcs))]);
         
+        legend('AWGN','Multipercursos','Location','SouthWest');
+        
         hold off;
     end
     
 end
 
-%%
+%% 
 
 figure(configNum + mcs + c_sim.drates(end) + 2);
 mcs1 = 4;

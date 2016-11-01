@@ -14,7 +14,7 @@ c_sim.release = 'wisil_11n_1.0';     % simulator release
 %% Main Simulation Parameters
 
 % Eb/N0 values in dB
-c_sim.EbN0s = 2:0.5:20;
+c_sim.EbN0s = 8:0.2:16;
 
 % simulation length
 c_sim.min_npackets = 500;    %minimum number of packets
@@ -37,7 +37,7 @@ c_sim.rnd_state = 1;		% initial state of random number generator
 %% Transmitter Parameters
 
 % Standards Version ('802.11a', '802.11n' or '802.11ac')
-c_sim.version = '802.11ac';
+c_sim.version = '802.11n';
 
 % data length of each PSDU in bytes
 c_sim.data_len = 1000;
@@ -46,7 +46,7 @@ c_sim.data_len = 1000;
 c_sim.cyclic_prefix = 'long';
 
 % channel bandwidth
-c_sim.w_channel = 160; %20MHz or 40 MHz
+c_sim.w_channel = 20; %20MHz or 40 MHz
 
 % windowing
 c_sim.timedomwindowing = false; % timedomain windowing
@@ -67,7 +67,7 @@ if strcmp(c_sim.version,'802.11a')
     c_sim.drates = 0:7;
     
 elseif strcmp(c_sim.version,'802.11n')
-    c_sim.drates = 0:7;
+    c_sim.drates = 7; % EDITED TO SIMULATO ONLY 1 MCS
     
 elseif strcmp(c_sim.version, '802.11ac')
     if c_sim.w_channel == 20
@@ -142,7 +142,7 @@ end
 c_sim.chan_awgn = true;
 
 % Multipath channel model
-c_sim.chan_multipath = 'E';
+c_sim.chan_multipath = 'off';
 % 'off' or 'A' for freq. flat channel
 % 802.11n channel model: 'A','B','C','D', 'E' or 'F'
 c_sim.chan_fixed = false;  % 'true' if channel is fixed for whole simulation

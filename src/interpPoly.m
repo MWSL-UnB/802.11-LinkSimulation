@@ -8,7 +8,7 @@ fprintf('\n\nSimulate!\n\n');
 hsr_script;
 
 % fprintf('\n\nLoad!\n\n');
-% filename = 'Results\results_16-10-28-2019';
+% filename = 'Results\results_16-10-26-1412';
 % load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
@@ -144,5 +144,7 @@ if ~strcmp(plotType,'off')
         title(num2str(rates1(k)));
     end
 end
+
+%% Close file
 
 fclose(fid);
