@@ -23,7 +23,7 @@ L2SStruct.cyclic_prefix = {'long'};
 % Data length of PSDUs in bytes
 L2SStruct.data_len = [1000];
 % Beta range and resolution
-L2SStruct.betas = 0.1:0.05:50;
+L2SStruct.betas = 0.1:0.01:50;
 % Random generator seeds (must be of length L2SStruct.maxChannRea)
 L2SStruct.seeds = 1:L2SStruct.maxChannRea;
 
@@ -86,12 +86,22 @@ for k = 1:configNum
     filename = [L2SStruct.folderName '\L2S_beta_results_' num2str(k) '.mat'];
     load(filename);
     figure(k);
+    set(axes,'LineStyleOrder',{'-','-.',});
+    hold all
     plot(L2SStruct.betas,rmse_vec,'LineWidth',2);
     legend('MCS0','MCS1','MCS2','MCS3','MCS4','MCS5','MCS6','MCS7');
     xlabel('\beta');
     ylabel('rmse');
     grid on
-    title(['Scenario ' num2str(k)]);
+    gistr = 'longo';
+    if strcmp(L2SStruct.cyclic_prefix,'short')
+        gistr = 'curto';
+    end
+    titname = ['Cenário: ',L2SStruct.version{k},', Modelo de Canal ',...
+        L2SStruct.chan_multipath{k},', Largura de Banda de ',num2str(L2SStruct.w_channel(k)),...
+        'MHz, Intervalo de guarda ',gistr];
+    title(titname);
+    hold off;
     
     for mcs = c_sim.drates + 1
         
@@ -103,7 +113,7 @@ for k = 1:configNum
         grid on;
         hold on;
         
-        subBeta = beta(mcs)/10;
+        subBeta = 1;
         
         drP = hsr_drate_param(mcs - 1,false);
         SNReff = L2S_SNReff(SNRp_mtx.*(drP.data_rate/c_sim.w_channel),subBeta);
@@ -112,8 +122,8 @@ for k = 1:configNum
         
         semilogy(db(SNReff,'power'),per_mtx(:,:,mcs),'r.');
         
-        title(['MCS' num2str(mcs - 1) ', suboptimal \beta = ' ...
-            num2str(subBeta) ', rmse = ' num2str(subRmse)]);
+        title(['MCS' num2str(mcs - 1) ', \beta = ' ...
+            num2str(subBeta) ' subótimo, rmse = ' num2str(subRmse)]);
         
         hold off;
     end
@@ -133,10 +143,31 @@ for k = 1:configNum
         
         semilogy(db(SNReff,'power'),per_mtx(:,:,mcs),'r.');
         
-        title(['MCS' num2str(mcs - 1) ', optimal \beta = ' ...
-            num2str(beta(mcs)) ', rmse = ' num2str(rmse(mcs))]);
+        title(['MCS' num2str(mcs - 1) ', \beta = ' ...
+            num2str(beta(mcs)) ' ótimo, rmse = ' num2str(rmse(mcs))]);
         
         hold off;
     end
     
 end
+
+%%
+
+figure(configNum + mcs + c_sim.drates(end) + 2);
+mcs1 = 4;
+pl = 5;
+%fitC = fit(L2SStruct.betas',rmse_vec(mcs1+1,:)','smoothingspline',...
+%    'SmoothingParam',0.01);
+%h1 = plot(fitC,'b');
+% set(h1,'LineWidth',2);
+hold on
+%plot(L2SStruct.betas(1:pl:end)',rmse_vec(mcs1+1,1:pl:end)','r.')
+plot(L2SStruct.betas',rmse_vec(mcs1+1,:)')
+xlabel('\beta');
+ylabel('rmse');
+legend off
+axis([0 50 0.25 0.8])
+grid on
+title([titname ', MCS' num2str(mcs1)]);
+hold off
+
