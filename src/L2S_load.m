@@ -1,7 +1,11 @@
 function [SNRp_mtx,per_mtx,snrAWGN_mtx,perAWGN_mtx] = L2S_load(numSim,L2SStruct)
 
+chanUse = L2SStruct.maxChannRea;
+
 filename = [L2SStruct.folderName '\L2S_results_' num2str(numSim) '.mat'];
 load(filename);
+
+L2SStruct.maxChannRea = chanUse;
 
 SNRp_mtx = zeros([size(SNRp) L2SStruct.maxChannRea]);
 per_mtx_pre = zeros([size(per) L2SStruct.maxChannRea]);

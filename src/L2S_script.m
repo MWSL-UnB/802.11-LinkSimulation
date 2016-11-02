@@ -45,6 +45,9 @@ fprintf('\n\nSimulation time: %.3f hours \n\n', t1/(60*60));
 
 tic
 
+chanUse = 5; % Number of channel realizations to use, MUST be > L2SStruct.maxChannRea
+L2SStruct.maxChannRea = chanUse;
+
 configNum = length(L2SStruct.chan_multipath)*length(L2SStruct.version)*...
     length(L2SStruct.w_channel)*length(L2SStruct.cyclic_prefix)*...
     length(L2SStruct.data_len);
@@ -160,17 +163,17 @@ end
 figure(configNum + mcs + c_sim.drates(end) + 2);
 mcs1 = 4;
 pl = 5;
-%fitC = fit(L2SStruct.betas',rmse_vec(mcs1+1,:)','smoothingspline',...
-%    'SmoothingParam',0.01);
-%h1 = plot(fitC,'b');
-% set(h1,'LineWidth',2);
+fitC = fit(L2SStruct.betas',rmse_vec(mcs1+1,:)','smoothingspline',...
+   'SmoothingParam',0.01);
+h1 = plot(fitC,'b');
+set(h1,'LineWidth',2);
 hold on
-%plot(L2SStruct.betas(1:pl:end)',rmse_vec(mcs1+1,1:pl:end)','r.')
-plot(L2SStruct.betas',rmse_vec(mcs1+1,:)')
+plot(L2SStruct.betas(1:pl:end)',rmse_vec(mcs1+1,1:pl:end)','r.')
+% plot(L2SStruct.betas',rmse_vec(mcs1+1,:)')
 xlabel('\beta');
 ylabel('rmse');
 legend off
-axis([0 50 0.25 0.8])
+axis([0 50 0.25 1.2])
 grid on
 title([titname ', MCS' num2str(mcs1)]);
 hold off

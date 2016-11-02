@@ -1,0 +1,4 @@
+802.11n
+GI: long
+Band: 20 MHz
+

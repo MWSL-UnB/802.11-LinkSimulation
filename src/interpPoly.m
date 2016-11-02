@@ -4,12 +4,12 @@ close all
 
 %% Simulate or load
 
-fprintf('\n\nSimulate!\n\n');
-hsr_script;
+% fprintf('\n\nSimulate!\n\n');
+% hsr_script;
 
-% fprintf('\n\nLoad!\n\n');
-% filename = 'Results\results_16-10-26-1412';
-% load([filename '.mat']);
+fprintf('\n\nLoad!\n\n');
+filename = 'Results\results_16-11-01-1613';
+load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
 fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n\n',c_sim.version,...
@@ -18,9 +18,9 @@ fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n\n',c_sim.version,...
 %% Definir SNR
 
 rates1 = zeros(size(c_sim.drates));
-for mcs = c_sim.drates
-    drP = hsr_drate_param(mcs,false);
-    rates1(mcs + 1) = drP.data_rate;
+for mcs = 1:length(c_sim.drates)
+    drP = hsr_drate_param(c_sim.drates(mcs),false);
+    rates1(mcs) = drP.data_rate;
 end
 rates = repmat(rates1',1,size(ber,2));
 
@@ -50,8 +50,8 @@ for k = 1:length(rates1)
     
     T2V(k) = T2;
     
-    mrgnDo = 0.5;
-    mrgnUp = 1;
+    mrgnDo = 0;
+    mrgnUp = 0;
     
     SNRIdxT1 = find(SNRV > (T1 - mrgnDo) & SNRV < (T2 + mrgnUp));
     T1x = SNRV(SNRIdxT1);
@@ -75,31 +75,31 @@ end
 
 %% Display
 
-for k = 1:length(rates1)
-    fprintf(fid,'{%.6f,%.6f,%.6f,%.6f,%.6f},\n',...
-        T1fit(k,5),T1fit(k,4),T1fit(k,3),T1fit(k,2),T1fit(k,1));
-end
-
-fprintf(fid,'\n{');
-for k = 1:length(rates1)
-    fprintf(fid,'{%.6f,%.6f}',T2fit(k,2),T2fit(k,1));
-    if k ~= length(rates1)
-        fprintf(fid,',');
-    end
-end
-fprintf(fid,'}');
-
-fprintf(fid,'\n\nmin = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T1V(1),T1V(2),...
-    T1V(3),T1V(4),T1V(5),T1V(6),T1V(7),T1V(8));
-fprintf(fid,'max = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T2V(1),T2V(2),...
-    T2V(3),T2V(4),T2V(5),T2V(6),T2V(7),T2V(8));
+% for k = 1:length(rates1)
+%     fprintf(fid,'{%.6f,%.6f,%.6f,%.6f,%.6f},\n',...
+%         T1fit(k,5),T1fit(k,4),T1fit(k,3),T1fit(k,2),T1fit(k,1));
+% end
+% 
+% fprintf(fid,'\n{');
+% for k = 1:length(rates1)
+%     fprintf(fid,'{%.6f,%.6f}',T2fit(k,2),T2fit(k,1));
+%     if k ~= length(rates1)
+%         fprintf(fid,',');
+%     end
+% end
+% fprintf(fid,'}');
+% 
+% fprintf(fid,'\n\nmin = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T1V(1),T1V(2),...
+%     T1V(3),T1V(4),T1V(5),T1V(6),T1V(7),T1V(8));
+% fprintf(fid,'max = {%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f};\n\n',T2V(1),T2V(2),...
+%     T2V(3),T2V(4),T2V(5),T2V(6),T2V(7),T2V(8));
 
 %% Plot
 
 plotType = 'log';
 
 if ~strcmp(plotType,'off')
-    for k = c_sim.drates + 1
+    for k = 1:length(c_sim.drates + 1)
         
         SNR2 = min(SNR(k,:)):0.1:max(SNR(k,:));
         
@@ -131,17 +131,17 @@ if ~strcmp(plotType,'off')
             semilogy(SNR(k,:),per(k,:),'bo','LineWidth',2);
             hold on
             semilogy(SNR2(1:snrMaxIdx),fitPer,'r-','LineWidth',2);
-            semilogy(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
+%             semilogy(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
             hold off
         else
             plot(SNR(k,:),per(k,:),'bo','LineWidth',2);
             hold on
             plot(SNR2(1:snrMaxIdx),fitPer,'r-','LineWidth',2);
-            plot(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
+%             plot(EbN0(k,:),per(k,:),'g-o','LineWidth',2);
             hold off
         end
         grid on;
-        title(num2str(rates1(k)));
+        title(['MCS' num2str(c_sim.drates(k))]);
     end
 end
 
