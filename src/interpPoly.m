@@ -8,7 +8,7 @@ close all
 % hsr_script;
 
 fprintf('\n\nLoad!\n\n');
-filename = 'Results\results_16-11-01-1613';
+filename = 'Results\results_16-10-26-1412';
 load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
@@ -50,8 +50,8 @@ for k = 1:length(rates1)
     
     T2V(k) = T2;
     
-    mrgnDo = 0;
-    mrgnUp = 0;
+    mrgnDo = 1;
+    mrgnUp = 0.5;
     
     SNRIdxT1 = find(SNRV > (T1 - mrgnDo) & SNRV < (T2 + mrgnUp));
     T1x = SNRV(SNRIdxT1);
@@ -101,7 +101,7 @@ plotType = 'log';
 if ~strcmp(plotType,'off')
     for k = 1:length(c_sim.drates + 1)
         
-        SNR2 = min(SNR(k,:)):0.1:max(SNR(k,:));
+        SNR2 = min(SNR(k,:)):0.1:max(SNR(k,:)+2);
         
         tmp1 = abs(SNR2 - T1V(k));
         [~,T1Idx] = min(tmp1);
@@ -115,7 +115,7 @@ if ~strcmp(plotType,'off')
         posT1 = T1fit(k,5)+T1fit(k,4).*posT1+T1fit(k,3).*posT1.^2+...
             T1fit(k,2).*posT1.^3+T1fit(k,1).*posT1.^4;
         
-        snrMaxIdx = T2Idx + 10;
+        snrMaxIdx = T2Idx + 30;
         if snrMaxIdx > length(SNR2)
             snrMaxIdx = length(SNR2);
         end
