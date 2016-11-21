@@ -45,7 +45,7 @@ fprintf('\n\nSimulation time: %.3f hours \n\n', t1/(60*60));
 
 tic
 
-chanUse = 5; % Number of channel realizations to use, MUST be > L2SStruct.maxChannRea
+chanUse = 40; % Number of channel realizations to use, MUST be >= L2SStruct.maxChannRea
 L2SStruct.maxChannRea = chanUse;
 
 configNum = length(L2SStruct.chan_multipath)*length(L2SStruct.version)*...
