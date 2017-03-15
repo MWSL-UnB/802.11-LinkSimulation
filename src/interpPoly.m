@@ -4,12 +4,12 @@ close all
 
 %% Simulate or load
 
-% fprintf('\n\nSimulate!\n\n');
-% hsr_script;
+fprintf('\n\nSimulate!\n\n');
+hsr_script;
 
-fprintf('\n\nLoad!\n\n');
-filename = 'Results\results_16-10-26-1412';
-load([filename '.mat']);
+% fprintf('\n\nLoad!\n\n');
+% filename = 'Results\results_16-11-21-1319';
+% load([filename '.mat']);
 
 fid = fopen([filename '.txt'],'wt');
 fprintf(fid,'%s\nGI: %s\nBand: %d MHz\n\n',c_sim.version,...

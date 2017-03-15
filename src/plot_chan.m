@@ -1,5 +1,5 @@
-clc
-clear all
+% clc
+% clear all
 close all
 
 %% Load variables
@@ -7,10 +7,10 @@ close all
 L2S = true;
 hsr_script;
 
-hsr_chan_multipath('init',c_sim.chan_multipath, ...
-    1/c_sim.sampling_freq,c_sim.ch_rolloff, ...
-    c_sim.rnd_state,c_sim.antennas, ...
-    c_sim.chan_vel,c_sim.frame_interval/2);
+% hsr_chan_multipath('init',c_sim.chan_multipath, ...
+%     1/c_sim.sampling_freq,c_sim.ch_rolloff, ...
+%     c_sim.rnd_state,c_sim.antennas, ...
+%     c_sim.chan_vel,c_sim.frame_interval/2);
 c = hsr_chan_multipath('fade',c_sim.chan_norm);
 
 t = (-2:(length(c)-3)).*(1/(c_sim.w_channel*1e6));
@@ -22,7 +22,7 @@ t = (-2:(length(c)-3)).*(1/(c_sim.w_channel*1e6));
 figure(1);
 h = abs(c);
 plot((t)*1e9,h,'LineWidth',1.2);
-% axis([0 max(t*1e9) 0 0.7]);
+axis([0 max(t*1e9) 0 0.7]);
 xlabel('t [ns]');
 ylabel('|h(t)|');
 print('-dpng','figs\channel_response_time.png');

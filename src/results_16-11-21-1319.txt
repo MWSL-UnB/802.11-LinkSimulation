@@ -1,0 +1,4 @@
+802.11ac
+GI: long
+Band: 80 MHz
+
